@@ -3,12 +3,14 @@ const crypto = require('crypto');
 
 module.exports = {
   async index(req, res) {
+    const { userID: user_id } = req.query;
     const passwords = await db.select().table('passwords')
+      .where({ user_id })
       .orderBy('created_at', 'desc');
     return res.status(200).json(passwords);
   },
   async create(req, res) {
-    const { service, password } = req.body;
+    const { service, password, user_id } = req.body;
 
     const lastPasswords = await db.select().table('passwords');
 
@@ -23,6 +25,7 @@ module.exports = {
       await trx('passwords').insert({
         service,
         password: cryptoPassword,
+        user_id,
       });
       
       await trx.commit();
@@ -38,4 +41,4 @@ module.exports = {
       });
     }
   },
-};
+}
