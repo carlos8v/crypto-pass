@@ -1,9 +1,9 @@
 const express = require('express');
-
 const routes = express.Router();
 
-routes.get('/', (req, res) => {
-  res.json({ ok: true });
-});
+const PasswordController = require('./controllers/PasswordController');
+
+routes.get('/passwords', PasswordController.index);
+routes.post('/password/new', PasswordController.create);
 
 module.exports = routes;
