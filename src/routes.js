@@ -5,9 +5,11 @@ const PasswordController = require('./controllers/PasswordController');
 const UserController = require('./controllers/UserController');
 
 routes.get('/users', UserController.index);
-routes.post('/user/new', UserController.create);
+routes.post('/users/new', UserController.create);
+routes.delete('/users/:userID', UserController.destroy);
 
 routes.get('/passwords', PasswordController.index);
-routes.post('/password/new', PasswordController.create);
+routes.post('/passwords/new', PasswordController.create);
+routes.delete('/passwords/:passwordID', PasswordController.destroy);
 
 module.exports = routes;

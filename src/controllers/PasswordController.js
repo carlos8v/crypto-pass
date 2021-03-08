@@ -10,7 +10,7 @@ module.exports = {
     return res.status(200).json(passwords);
   },
   async create(req, res) {
-    const { service, password, user_id } = req.body;
+    const { service, password, userID: user_id } = req.body;
 
     const lastPasswords = await db.select().table('passwords');
 
@@ -33,12 +33,33 @@ module.exports = {
       const [ createdPass ] = await db.select().table('passwords').orderBy('created_at', 'desc');
 
       return res.status(201).json(createdPass);
-    } catch (e) {
+    } catch (error) {
       trx.rollback();
       res.status(400).json({
         msg: 'Unexpected error while creating new password',
-        error: e,
+        error,
       });
     }
   },
+  async destroy(req, res) {
+    const { passwordID: password_id } = req.params;
+    const { service } = req.body;
+
+    const trx = await db.transaction();
+
+    try {
+      await trx('passwords').where({ service, password_id }).del();
+
+      await trx.commit();
+
+      return res.status(200).send();
+
+    } catch (error) {
+      trx.rollback();
+      res.status(400).json({
+        msg: 'Unexpected error while deleting password',
+        error,
+      });
+    }
+  }
 }
