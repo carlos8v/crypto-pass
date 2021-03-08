@@ -7,6 +7,16 @@ module.exports = {
       .orderBy('username', 'asc');
     return res.status(200).json(users);
   },
+  async get(req, res) {
+    const { username, password } = req.query;
+    const [ user ] = await db.select().table('users')
+      .where({ username, password }).limit(1);
+    
+    if(!user)
+      return res.status(404).json({ error: 'Username or password does not match' });
+    
+    return res.status(200).json({ ok: true });
+  },
   async create(req, res) {
     const { username } = req.body;
 
