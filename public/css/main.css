@@ -4,3 +4,46 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+body {
+  background: #F6F8FA;
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+.notification {
+  position: fixed;
+  right: -100vw;
+  top: 30px;
+  padding: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.notification-active {
+  animation: appear 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes appear {
+  0% {
+    right: -100%;
+    opacity: 0;
+  }
+  10% {
+    right: 0;
+    opacity: 1;
+  }
+  80% {
+    right: 0;
+    opacity: 1;
+  }
+  100% {
+    right: 100px;
+    opacity: 0;
+  }
+}

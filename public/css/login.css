@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #F6F8FA;
   justify-content: center;
   gap: 30px;
 }
@@ -13,6 +12,7 @@
   font-size: 18px;
   font-weight: 600;
   color: #333;
+  user-select: none;
 }
 
 .login-form {
@@ -83,38 +83,7 @@
   border: 1px solid rgb(0, 0, 0, 0.2);
 }
 
-.error-modal {
-  position: fixed;
-  right: -100vw;
-  top: 30px;
+.error {
   background: #fb3333;
-  padding: 10px;
   color: white;
-  font-weight: 600;
-  font-size: 14px;
-  pointer-events: none;
-}
-
-.error-modal--active {
-  animation: appear 5s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes appear {
-  0% {
-    right: -100%;
-    opacity: 0;
-  }
-  10% {
-    right: 0;
-    opacity: 1;
-  }
-  80% {
-    right: 0;
-    opacity: 1;
-  }
-  100% {
-    right: 100px;
-    opacity: 0;
-  }
 }

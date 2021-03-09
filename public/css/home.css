@@ -1,0 +1,211 @@
+.wrapper {
+  height: calc(100vh - 30px);
+  width: 100%;
+  padding: 15px 30px;
+  display: flex;
+  justify-items: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.user-container {
+  width: 300px;
+  height: 100%;
+  padding-top: 10px;
+  display: flex;
+  padding-right: 20px;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+}
+
+.user-content {
+  padding: 10px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 15px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgb(0, 0, 0, 0.05);
+}
+
+.log-out {
+  padding: 10px 15px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 15px;
+  cursor: pointer;
+  color: #666;
+  transition: filter 400ms ease-out;
+  text-decoration: none;
+  font-size: 16px;
+  text-align: center;
+}
+
+section {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  position: relative;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-weight: 600;
+  color: #333;
+}
+
+.new-password {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  transition: color 200ms ease-out;
+}
+
+.new-password:hover {
+  color: #2ea44f;
+}
+
+.passwords-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px 30px;
+}
+
+.password-container {
+  width: 100%;
+  padding: 15px 30px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgb(0, 0, 0, 0.05);
+  border-radius: 4px;
+  position: relative;
+}
+
+.password-visibility {
+  cursor: pointer;
+  padding: 10px;
+  right: -10px;
+  top: -10px;
+  position: absolute;
+  border-radius: 100%;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.password-visibility::before {
+  content: '\f070';
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.password-visibility-enabled::before {
+  content: '\f06e';
+}
+
+.password-info {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.password-info p {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.password > p {
+  background: rgba(0, 0, 0, 0.1);
+  color: transparent;
+  transition: all 200ms ease-out;
+  user-select: none;
+}
+
+.password-enabled > p {
+  background: transparent;
+  color: #333;
+}
+
+.actions-container {
+  margin-top: 5px;
+  display: flex;
+}
+
+.actions-container > button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.actions-container > button:hover {
+  text-decoration: underline;
+}
+
+.actions-container > button:first-of-type {
+  color: #666;
+}
+
+.actions-container > button:last-of-type {
+  color: #fb3333;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.copy {
+  background: #2ea44f;
+  color: white;
+}
+
+.no-passwords-saved {
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #666;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.no-passwords-saved-enabled {
+  opacity: 1;
+}
+
+@media (max-width: 700px) {
+  .wrapper {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  section {
+    padding: 0;
+  }
+
+  .user-container {
+    width: 100%;
+    height: 200px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-right: 0;
+    padding-bottom: 30px;
+    margin-bottom: 15px;
+  }
+}

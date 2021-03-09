@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <script src="vendor/axios.min.js"></script>
   <script src="scripts/login.js" type="module"></script>
   <title>crypto-pass | Login</title>
 </head>
@@ -16,16 +17,16 @@
     <form class="login-form">
       <div class="input-block">
         <label for="name">Username:</label>
-        <input type="text" id="username">
+        <input type="text" id="username" placeholder="ada.lovelace@email.com">
       </div>
       <div class="input-block">
         <label for="password">Password:</label>
-        <input type="password" id="password">
+        <input type="password" id="password" placeholder="safe_password.hash()">
       </div>
       <button type="submit">Sign in</button>
     </form>
     <a href="/join" class="sign-up">Sign Up</a>
-    <div class="error-modal"></div>
+    <div class="notification error"></div>
   </main>
 </body>
 </html>
