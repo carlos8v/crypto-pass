@@ -20,8 +20,8 @@ module.exports = {
       return res.status(401).json({ error: 'Username or password does not match' });
     
     const token = jwt.sign({ user: user.user_id });
-
-    return res.status(200).json({ ...user, token });
+    const { password: pass, ...safeUser } = user;
+    return res.status(200).json({ ...safeUser, token });
   },
   async create(req, res) {
     const { username } = req.body;
@@ -68,7 +68,6 @@ module.exports = {
         .digest('hex');
 
       await trx('users').where({ user_id, password }).del();
-      await trx('passwords').where({ user_id }).del();
 
       await trx.commit();
 
