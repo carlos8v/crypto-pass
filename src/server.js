@@ -1,4 +1,6 @@
 require('dotenv').config();
+const { warn, log } = require('./cli');
+
 const { resolve } = require('path');
 const cors = require('cors');
 const express = require('express');
@@ -14,4 +16,9 @@ app.use('/vendor', express.static(resolve(__dirname, '..', 'public', 'vendor')))
 
 app.use(require('./routes'));
 
-app.listen(3000);
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  warn('initializing server');
+  log(`server initialized at port ${port}`);
+});

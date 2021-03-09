@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js -e js,html,css",
-    "knex:migrate": "knex migrate:latest",
-    "knex:migrate:rollback": "knex migrate:rollback"
+    "config": "node src/config.js"
   },
   "keywords": [],
   "author": "",
