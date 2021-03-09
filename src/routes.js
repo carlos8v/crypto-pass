@@ -2,22 +2,26 @@ const { resolve } = require('path');
 const express = require('express');
 const routes = express.Router();
 
-const PasswordController = require('./controllers/PasswordController');
 const UserController = require('./controllers/UserController');
+const AuthController = require('./controllers/AuthController');
+const PasswordController = require('./controllers/PasswordController');
+
+routes.get('/me', AuthController.authenticate, (req, res) => {
+  res.status(200).json(req.auth);
+});
 
 routes.get('/users', UserController.index);
 routes.get('/users/find', UserController.get);
 routes.post('/users/new', UserController.create);
-routes.delete('/users/:userID', UserController.destroy);
+routes.delete('/users', AuthController.authenticate, UserController.destroy);
 
-routes.get('/passwords', PasswordController.index);
-routes.post('/passwords/new', PasswordController.create);
-routes.delete('/passwords/:passwordID', PasswordController.destroy);
+routes.get('/passwords', AuthController.authenticate, PasswordController.index);
+routes.post('/passwords/new', AuthController.authenticate, PasswordController.create);
+routes.delete('/passwords/:passwordID', AuthController.authenticate, PasswordController.destroy);
 
 const pagesFolder = resolve(__dirname, '..', 'public', 'pages');
 
-routes.get('/', (req, res) => {
-  res.sendFile(`${pagesFolder}/login.html`);
-});
+routes.get('/', (req, res) => res.sendFile(`${pagesFolder}/login.html`));
+routes.get('/home', (req, res) => res.sendFile(`${pagesFolder}/home.html`));
 
 module.exports = routes;

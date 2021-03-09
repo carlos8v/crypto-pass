@@ -1,5 +1,6 @@
 const db = require('../database/connection');
 const crypto = require('crypto');
+const jwt = require('../jwt');
 
 module.exports = {
   async index(req, res) {
@@ -8,14 +9,19 @@ module.exports = {
     return res.status(200).json(users);
   },
   async get(req, res) {
-    const { username, password } = req.query;
+    const [ _, hash ] = req.headers.authorization.split(' ');
+    const [ username, password ] = Buffer.from(hash, 'base64')
+      .toString().split(':');
+
     const [ user ] = await db.select().table('users')
       .where({ username, password }).limit(1);
     
     if(!user)
-      return res.status(404).json({ error: 'Username or password does not match' });
+      return res.status(401).json({ error: 'Username or password does not match' });
     
-    return res.status(200).json({ ok: true });
+    const token = jwt.sign({ user: user.user_id });
+
+    return res.status(200).json({ ...user, token });
   },
   async create(req, res) {
     const { username } = req.body;
@@ -35,10 +41,12 @@ module.exports = {
       
       await trx.commit();
 
-      const createdUser = await db.select().table('users')
+      const [ { password, ...createdUser } ] = await db.select().table('users')
         .where({ username });
 
-      return res.status(201).json(createdUser);
+      const token = jwt.sign({ user: createdUser.user_id });
+
+      return res.status(201).json({ ...createdUser, token });
     } catch (error) {
       trx.rollback();
       res.status(400).json({
@@ -48,8 +56,8 @@ module.exports = {
     }
   },
   async destroy(req, res) {
-    const { userID: user_id } = req.params;
     const { username } = req.body;
+    const { user_id } = req.auth;
 
     const trx = await db.transaction();
 

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { resolve } = require('path');
 const cors = require('cors');
 const express = require('express');
@@ -9,6 +10,7 @@ app.use(express.json());
 
 app.use('/css', express.static(resolve(__dirname, '..', 'public', 'css')));
 app.use('/scripts', express.static(resolve(__dirname, '..', 'public', 'scripts')));
+app.use('/vendor', express.static(resolve(__dirname, '..', 'public', 'vendor')));
 
 app.use(require('./routes'));
 
