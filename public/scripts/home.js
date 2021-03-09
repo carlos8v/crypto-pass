@@ -83,12 +83,20 @@ async function fetchUser() {
   if (!localStorage.getItem('token'))
     window.location.href = baseURL;
 
-  const { data } = await axios.get(`${baseURL}/me`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+  try {
+    const { data } = await axios.get(`${baseURL}/me`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    });
+    
+    document.querySelector('.username').innerText = data.username;
+  } catch ({ response }) {
+    if (response.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = baseURL;
     }
-  });
-  document.querySelector('.username').innerText = data.username;
+  }
 }
 
 window.onload = async () => {
