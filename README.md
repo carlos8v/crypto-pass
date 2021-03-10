@@ -1,12 +1,13 @@
 # The Project
 
-A simple self-hosted password manager
+A simple self-hosted password manager.
 
 ![Screenshots-login-v1.0](https://raw.githubusercontent.com/carlos8v/crypto-pass/main/screenshots/login-crypto-pass-1.0.png)
 
 ---
 
-#### How do I test?
+## How do I test?
+
 After cloning / downloading the project run:
 ```bash
 $ npm install
@@ -20,16 +21,16 @@ After that you can simply run `npm run start` and visit the application ip on yo
 
 ![Screenshots-home-v1.0](https://raw.githubusercontent.com/carlos8v/crypto-pass/main/screenshots/home-crypto-pass-1.0.png)
 
-#### Techs
+## Techs
  - Rest API;
  - JWT Authentication;
  - Hash cryptograph;
 
-#### To do list
+## To do list
 - [ ] Sign up page;
 - [ ] Delete password system on the front-end;
 - [ ] Email a new user his password.
 
-#### Changelogs
+## Changelogs
 - Redirection of non authenticated user on the front-end;
 - Configuration script.
