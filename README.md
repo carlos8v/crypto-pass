@@ -28,6 +28,7 @@ After that you can simply run `npm run start` and visit the application ip on yo
 
 ## To do list
 - [ ] Sign up page;
+- [ ] Create new password system on the front-end;
 - [ ] Delete password system on the front-end;
 - [ ] Email a new user his password.
 
