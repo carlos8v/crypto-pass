@@ -1,12 +1,16 @@
-import { getInfo, handleNotification } from './utils.js';
+import {
+  getInfo,
+  fetchUser,
+  handleNotification,
+  initializeBoxes,
+  toggleBoxEnable,
+} from './utils.js';
 
-function handleLogout() {
-  document.querySelector('.log-out').addEventListener('click', async () => {
-    localStorage.removeItem('token');
+async function handleLogout() {
+  localStorage.removeItem('token');
 
-    const { baseURL } = await getInfo();
-    window.location.href = baseURL;
-  });
+  const { baseURL } = await getInfo();
+  window.location.href = baseURL;
 }
 
 function noPasswordsSaved() {
@@ -24,7 +28,20 @@ function handleCopy(password) {
   handleNotification('.copy', 'Password copied to clipboard');
 }
 
-function createPassword({ service, password }) {
+async function handleDelete(password_id, service) {
+  const { username } = await fetchUser();
+  document.querySelector('.pass-name').innerText = `${username}/${service}`;
+  
+  const deleteButton = document.querySelector('.delete-btn');
+  deleteButton.setAttribute('disabled', '');
+  toggleBoxEnable('.delete-box');
+
+  const deleteInput = document.querySelector('.delete-input');
+  deleteInput.setAttribute('pass-id', password_id);
+  deleteInput.setAttribute('service', service);
+}
+
+function createPassword({ password_id, service, password }) {
   const passContainer = document.querySelector('.passwords-container');
   const passContent = document.createElement('div');
   passContent.classList.add('password-container');
@@ -48,6 +65,7 @@ function createPassword({ service, password }) {
 
   const deleteAction = document.createElement('button');
   deleteAction.innerText = 'delete';
+  deleteAction.addEventListener('click', () => handleDelete(password_id, service));
 
   const actionsContainer = document.createElement('div');
   actionsContainer.classList.add('actions-container');
@@ -77,30 +95,61 @@ async function fetchPasswords() {
   document.querySelector('.passwords-count').innerText = data.length;
 }
 
-async function fetchUser() {
-  const { baseURL } = await getInfo();
-  
-  if (!localStorage.getItem('token'))
-    window.location.href = baseURL;
+async function initializeUser() {
+  const { username } = await fetchUser();
+  document.querySelector('.username').innerText = username;
+}
 
-  try {
-    const { data } = await axios.get(`${baseURL}/me`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+function initializeEventsListeners() {
+  document.querySelector('.log-out').addEventListener('click', handleLogout);
+  initializeBoxes();
+  initializeDeleteListeners();
+}
+
+function initializeDeleteListeners() {
+  const deleteButton = document.querySelector('.delete-btn');
+  const deleteInput = document.querySelector('.delete-input')
+
+  deleteInput.addEventListener('input', async ({ target }) => {
+    const { username } = await fetchUser();
+    const service = deleteInput.getAttribute('service');
+
+    if (target.value === `${username}/${service}`) {
+      deleteButton.removeAttribute('disabled');
+    } else {
+      if (!deleteButton.hasAttribute('disabled')) {
+        deleteButton.setAttribute('disabled', '');
       }
-    });
-    
-    document.querySelector('.username').innerText = data.username;
-  } catch ({ response }) {
-    if (response.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = baseURL;
     }
-  }
+  });
+
+  deleteButton.addEventListener('click', async () => {
+    const { baseURL } = await getInfo();
+    const password_id = deleteInput.getAttribute('pass-id');
+
+    try {
+      await axios.delete(`${baseURL}/passwords/${password_id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        }
+      });
+
+      document.querySelector('.passwords-container').innerHTML = '';
+      await fetchPasswords();
+      toggleBoxEnable('.delete-box');
+
+    } catch ({ response }) {
+      if (response.status === 401) {
+        alert('User was not authorized');
+        localStorage.removeItem('token');
+        window.location.href = baseURL;
+      }
+    }
+  });
 }
 
 window.onload = async () => {
-  await fetchUser();
+  await initializeUser();
   await fetchPasswords();
-  handleLogout();
+  initializeEventsListeners();
 }

@@ -25,15 +25,30 @@
       </div>
       <button class="log-out">Log out</button>
     </aside>
-    <section>
+    <section class="home-container">
       <div class="section-header">
         <p class="title">Your Passwords</p>
-        <a href="/new" class="new-password">New</a>
+        <button class="new-password">New</button>
       </div>
       <div class="passwords-container"></div>
       <div class="no-passwords-saved">You don't have any saved passwords yet</div>
     </section>
-    <div class="notification copy"></div>
   </main>
+  <section class="notification copy"></section>
+  <section class="contrast"></section>
+  <section class="box delete-box">
+    <header class="box-header">
+      <p>Are you sure?</p>
+      <button class="box-header-btn" name="delete-box">
+        <i class="fas fa-times"></i>
+      </button>
+    </header>
+    <div class="warn">You won't be able to recover this password</div>
+    <main class="box-content">
+      <p>Please type <strong class="pass-name">carlos8v/gadocoin</strong> to confirm.</p>
+      <input type="text" class="box-input delete-input" pass-id="-1" service="">
+      <button class="box-btn delete-btn" disabled>I understand the consequences, delete this password</button>
+    </main>
+  </section>
 </body>
 </html>

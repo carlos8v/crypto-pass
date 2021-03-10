@@ -3,8 +3,9 @@ const jwt = require('../jwt');
 
 module.exports = {
   async authenticate(req, res, next) {
-    if (!req.headers.authorization)
-      return res.status(401);
+    if (!req.headers.authorization) {
+      return res.status(401).json({ error: 'Authorization header was not provided' });
+    }
 
     const [_, token] = req.headers.authorization.split(' ');
     try {

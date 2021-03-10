@@ -3,11 +3,11 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
+  color: #333;
 }
 
 body {
   background: #F6F8FA;
-  color: #333;
 }
 
 a {
@@ -22,14 +22,15 @@ a {
   font-weight: 600;
   font-size: 14px;
   pointer-events: none;
+  z-index: 5;
 }
 
 .notification-active {
-  animation: appear 5s;
+  animation: show-notification 5s;
   animation-fill-mode: forwards;
 }
 
-@keyframes appear {
+@keyframes show-notification {
   0% {
     right: -100%;
     opacity: 0;
@@ -46,4 +47,123 @@ a {
     right: 100px;
     opacity: 0;
   }
+}
+
+.warn {
+  padding: 15px;
+  background: rgba(255, 223, 93, 0.2);
+  border-top: 1px solid rgba(255, 223, 93, 0.7);
+  border-bottom: 1px solid rgba(255, 223, 93, 0.7);
+}
+
+.contrast {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  background: transparent;
+  pointer-events: none;
+  transition: background 200ms ease-out;
+}
+
+.contrast-active {
+  pointer-events: all;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.box {
+  z-index: 5;
+  position: fixed;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: calc(100% - 20px);
+  max-width: 448px;
+  max-height: 80vh;
+  margin: 10vh auto;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 200ms ease-out;
+}
+
+.box-active {
+  opacity: 1;
+  pointer-events: all;
+  user-select: auto;
+}
+
+.box-header {
+  font-weight: 600;
+  background: #F6F8FA;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box-header > p {
+  padding-left: 15px;
+}
+
+.box-header-btn {
+  padding: 15px;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+  transition: filter 200ms ease-out;
+  color: #666;
+}
+
+.box-header-btn:hover {
+  filter: brightness(75%);
+}
+
+.box-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.box-input {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.box-btn {
+  padding: 5px 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: transparent;
+  border-radius: 4px;
+  transition: filter 400ms ease-out;
+  text-decoration: none;
+  font-size: 15px;
+  text-align: center;
+  transition: all 400ms ease-out;
+}
+
+.box-btn:disabled {
+  opacity: 0.6;
+}
+
+.box-btn:not(:disabled) {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.delete-btn {
+  color: #fb3333;
+}
+
+.delete-btn:not(:disabled):hover {
+  color: white;
+  background: #fb3333;
 }
