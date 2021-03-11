@@ -12,19 +12,9 @@
   <title>crypto-pass | Login</title>
 </head>
 <body>
-  <main class="wrapper">
+  <main id="app" class="wrapper">
     <p><i class="fas fa-key"></i> crypto-pass</p>
-    <form class="login-form">
-      <div class="input-block">
-        <label for="name">Username:</label>
-        <input type="text" id="username" placeholder="ada.lovelace@email.com">
-      </div>
-      <div class="input-block">
-        <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="safe_password.hash()">
-      </div>
-      <button type="submit">Sign in</button>
-    </form>
+    <form id="form" class="login-form"></form>
     <a href="/join" class="sign-up">Sign Up</a>
     <div class="notification error"></div>
   </main>
