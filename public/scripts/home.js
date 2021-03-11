@@ -9,7 +9,7 @@ const User = {
     username: '',
     passwords: 0,
   },
-  async fetchUser() {
+  fetchUser: async function() {
     const { baseURL } = await getInfo();
     
     if (!localStorage.getItem('token'))
@@ -37,7 +37,7 @@ const User = {
       }
     }
   },
-  async handleLogout() {
+  handleLogout: async function() {
     localStorage.removeItem('token');
   
     const { baseURL } = await getInfo();
@@ -47,14 +47,16 @@ const User = {
     document.querySelector('#log-out').addEventListener('click', this.handleLogout);
   },
   render() {
+    const { username, passwords } = this.state;
+
     return `
       <div class="section-header">
         <p class="title">User</p>
       </div>
       <div class="user-content">
-        <p class="username">${this.state.username}</p>
+        <p class="username">${username}</p>
         <i class="fas fa-key">
-          <span class="passwords-count">${this.state.passwords}</span>
+          <span class="passwords-count">${passwords}</span>
         </i>
       </div>
       <button id="log-out" class="log-out">Log out</button>
@@ -72,7 +74,7 @@ const PasswordContainer = {
     parent: '.home-container',
     passwords: [],
   },
-  async fetchPasswords() {
+  fetchPasswords: async function() {
     this.state.passwords = [];
     const { baseURL } = await getInfo();
 
@@ -88,14 +90,17 @@ const PasswordContainer = {
       });
     }
   },
-  renderPasswords() {
+  renderPasswords: function() {
     let passwordsList = '';
     this.state.passwords.forEach(pass => {
       passwordsList += pass.render();
     });
     return passwordsList;
   },
-  initializePasswordsEvents() {
+  setupEvents() {
+    if (this.state.passwords.length === 0 ) {
+      document.querySelector('.no-passwords-saved').classList.add('no-passwords-saved-enabled');
+    }
     this.state.passwords.forEach(pass => {
       pass.setupEvents();
     });
@@ -113,10 +118,7 @@ const PasswordContainer = {
   async update() {
     await this.fetchPasswords();
     document.querySelector(this.state.parent).innerHTML = this.render();
-    this.initializePasswordsEvents();
-    if (this.state.passwords.length === 0 ) {
-      document.querySelector('.no-passwords-saved').classList.add('no-passwords-saved-enabled');
-    }
+    this.setupEvents();
   }
 }
 
@@ -127,44 +129,52 @@ const Password = {
     password: '',
     password_id: 0,
   },
-  handleCopy({ state }) {
-    navigator.clipboard.writeText(state.password);
+  handleCopy: function() {
+    const { password } = this.state;
+    navigator.clipboard.writeText(password);
     handleNotification('.copy', 'Password copied to clipboard');
   },
-  handleDelete({ state }) {
-    DeleteBox.initializeState(state);
+  handleDelete: function() {
+    const { state } = this;
+    DeleteBox.setState(state);
   },
-  toggleVisibility(pass) {
-    document.querySelector(`#visibility-${pass.state.password_id}`)
+  toggleVisibility: function() {
+    const { password_id } = this.state;
+
+    document.querySelector(`#visibility-${password_id}`)
       .classList.toggle('password-visibility-enabled');
 
-    document.querySelector(`#pass-${pass.state.password_id}`)
+    document.querySelector(`#pass-${password_id}`)
       .classList.toggle('password-enabled');
   },
   setupEvents() {
-    document.querySelector(`#copy-${this.state.password_id}`)
-      .addEventListener('click', () => this.handleCopy(this));
+    const { password_id } = this.state;
 
-    document.querySelector(`#delete-${this.state.password_id}`)
-      .addEventListener('click', () => this.handleDelete(this));
+    document.querySelector(`#copy-${password_id}`)
+      .addEventListener('click', () => this.handleCopy());
 
-    document.querySelector(`#visibility-${this.state.password_id}`)
-      .addEventListener('click', () => this.toggleVisibility(this));
+    document.querySelector(`#delete-${password_id}`)
+      .addEventListener('click', () => this.handleDelete());
+
+    document.querySelector(`#visibility-${password_id}`)
+      .addEventListener('click', () => this.toggleVisibility());
   },
   render() {
+    const { password_id, service, password } = this.state;
+
     return `
       <div class="password-container">
         <div class="password-info">
-          <i class="fas fa-cog"></i> <p>${this.state.service}</p>
+          <i class="fas fa-cog"></i> <p>${service}</p>
         </div>
-        <div id="pass-${this.state.password_id}" class="password-info password">
-          <i class="fas fa-key"></i> <p>${this.state.password}</p>
+        <div id="pass-${password_id}" class="password-info password">
+          <i class="fas fa-key"></i> <p>${password}</p>
         </div>
         <div class="actions-container">
-          <button id="copy-${this.state.password_id}">copy</button>
-          <button id="delete-${this.state.password_id}">delete</button>
+          <button id="copy-${password_id}">copy</button>
+          <button id="delete-${password_id}">delete</button>
         </div>
-        <p id="visibility-${this.state.password_id}" class="password-visibility"></p>
+        <p id="visibility-${password_id}" class="password-visibility"></p>
       </div>
     `;
   },
@@ -186,20 +196,10 @@ const DeleteBox = {
     service: '',
     input: '',
   },
-  initializeState(state) {
-    this.state.service = state.service;
-    this.state.password_id = state.password_id;
-    this.state.input = '';
-    document.querySelector('#delete-input').value = '';
-    
-    this.update();
-    
-    this.toggleBoxEnable();
-  },
-  handleInput(deleteBox, value) {
-    deleteBox.state.input = value;
+  handleInput: function(value) {
+    this.state.input = value;
     const deleteButton = document.querySelector('#delete-btn');
-    if (value === `${User.state.username}/${deleteBox.state.service}`) {
+    if (value === `${User.state.username}/${this.state.service}`) {
       deleteButton.removeAttribute('disabled');
     } else {
       if (!deleteButton.hasAttribute('disabled')) {
@@ -207,19 +207,20 @@ const DeleteBox = {
       }
     }
   },
-  async handleDelete(deleteBox, e) {
+  handleDelete: async function(e) {
     e.preventDefault();
 
     const { baseURL } = await getInfo();
+    const { password_id } = this.state;
 
     try {
-      await axios.delete(`${baseURL}/passwords/${deleteBox.state.password_id}`, {
+      await axios.delete(`${baseURL}/passwords/${password_id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         }
       });
 
-      deleteBox.toggleBoxEnable();
+      this.toggleBoxEnable();
       await PasswordContainer.update();
       await User.update();
 
@@ -231,20 +232,32 @@ const DeleteBox = {
       }
     }
   },
-  toggleBoxEnable() {
+  toggleBoxEnable: function() {
     const contrast = document.querySelector('.contrast');
     contrast.classList.toggle('contrast-active');
     document.querySelector('#delete-box').classList.toggle('box-active');
+  },
+  setState({ service, password_id }) {
+    this.state.service = service;
+    this.state.password_id = password_id;
+    this.state.input = '';
+    
+    this.update();
+    
+    this.toggleBoxEnable();
   },
   setupEvents() {
     document.querySelector('#delete-close')
       .addEventListener('click', () => this.toggleBoxEnable());
     document.querySelector('#delete-input')
-      .addEventListener('input', ({ target }) => this.handleInput(this, target.value));
+      .addEventListener('input', ({ target }) => this.handleInput(target.value));
     document.querySelector('#delete-form')
-      .addEventListener('submit', (e) => this.handleDelete(this, e));
+      .addEventListener('submit', (e) => this.handleDelete(e));
   },
   render() {
+    const { service } = this.state;
+    const { username } = User.state;
+
     return `
       <header class="box-header">
         <p>Are you sure?</p>
@@ -254,7 +267,7 @@ const DeleteBox = {
       </header>
       <div class="warn">You won't be able to recover this password</div>
       <main class="box-content">
-        <p>Please type <strong>${User.state.username}/${this.state.service}</strong> to confirm.</p>
+        <p>Please type <strong>${username}/${service}</strong> to confirm.</p>
         <form id="delete-form" class="delete-form">
           <input type="text" class="box-input" id="delete-input">
           <button id="delete-btn" class="box-btn delete-btn" disabled>I understand the consequences, delete this password</button>

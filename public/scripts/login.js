@@ -6,25 +6,26 @@ const LoginForm = {
     username: '',
     password: '',
   },
-  handleInput(loginForm, name, value) {
-    loginForm.state[name] = value;
+  handleInput: function(name, value) {
+    this.state[name] = value;
   },
-  async handleAlreadyLogIn() {
+  handleAlreadyLogIn: async function() {
     if (localStorage.getItem('token') !== null) {
       const { baseURL } = await getInfo();
       window.location.href = `${baseURL}/home`;
     }
   },
-  async handleSubmit(formLogin, e) {
+  handleSubmit: async function(e) {
     e.preventDefault();
-    
+
     const { baseURL } = await getInfo();
+    const { username, password } = this.state;
 
     try {
       const { data } = await axios.get(`${baseURL}/users/find`, {
         auth: {
-          username: formLogin.state.username,
-          password: formLogin.state.password,
+          username,
+          password,
         },
       })
       
@@ -36,19 +37,20 @@ const LoginForm = {
   },
   setupEvents() {
     document.querySelectorAll('.input-block > input').forEach(input => {
-      input.addEventListener('input', ({ target }) => this.handleInput(this, input.id, target.value));
+      input.addEventListener('input', ({ target }) => this.handleInput(input.id, target.value));
     });
-    document.querySelector(this.state.parent).addEventListener('submit', (e) => this.handleSubmit(this, e));
+    document.querySelector(this.state.parent)
+      .addEventListener('submit', (e) => this.handleSubmit(e));
   },
   render() {
     return `
       <div class="input-block">
         <label for="name">Username:</label>
-        <input type="text" id="username" placeholder="ada.lovelace@email.com">
+        <input type="text" id="username" placeholder="ada.lovelace@email.com" required>
       </div>
       <div class="input-block">
         <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="safe_password.hash()">
+        <input type="password" id="password" placeholder="safe_password.hash()" required>
       </div>
       <button type="submit">Sign in</button>
     `;
