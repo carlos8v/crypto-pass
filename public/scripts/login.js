@@ -53,15 +53,15 @@ const LoginForm = {
       <button type="submit">Sign in</button>
     `;
   },
-  update() {
-    this.handleAlreadyLogIn();
+  async update() {
+    await this.handleAlreadyLogIn();
     document.querySelector(this.state.parent).innerHTML = this.render();
     this.setupEvents();
   }
 }
 
-function updateDom() {
-  LoginForm.update();
+async function updateDom() {
+  await LoginForm.update();
 }
 
 window.onload = updateDom;

@@ -218,8 +218,8 @@ const DeleteBox = {
       });
 
       deleteBox.toggleBoxEnable();
-      PasswordContainer.update();
-      User.update();
+      await PasswordContainer.update();
+      await User.update();
 
     } catch ({ response }) {
       if (response.status === 401) {
@@ -265,8 +265,8 @@ const DeleteBox = {
 }
 
 async function updateDom() {
-  User.update();
-  PasswordContainer.update();
+  await User.update();
+  await PasswordContainer.update();
   DeleteBox.update();
 }
 
