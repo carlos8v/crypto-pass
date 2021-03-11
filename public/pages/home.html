@@ -13,42 +13,11 @@
 </head>
 <body>
   <main class="wrapper">
-    <aside class="user-container">
-      <div class="section-header">
-        <p class="title">User</p>
-      </div>
-      <div class="user-content">
-        <p class="username"></p>
-        <i class="fas fa-key">
-          <span class="passwords-count">0</span>
-        </i>
-      </div>
-      <button class="log-out">Log out</button>
-    </aside>
-    <section class="home-container">
-      <div class="section-header">
-        <p class="title">Your Passwords</p>
-        <button class="new-password">New</button>
-      </div>
-      <div class="passwords-container"></div>
-      <div class="no-passwords-saved">You don't have any saved passwords yet</div>
-    </section>
+    <aside class="user-container"></aside>
+    <section class="home-container"></section>
   </main>
   <section class="notification copy"></section>
   <section class="contrast"></section>
-  <section class="box delete-box">
-    <header class="box-header">
-      <p>Are you sure?</p>
-      <button class="box-header-btn" name="delete-box">
-        <i class="fas fa-times"></i>
-      </button>
-    </header>
-    <div class="warn">You won't be able to recover this password</div>
-    <main class="box-content">
-      <p>Please type <strong class="pass-name">carlos8v/gadocoin</strong> to confirm.</p>
-      <input type="text" class="box-input delete-input" pass-id="-1" service="">
-      <button class="box-btn delete-btn" disabled>I understand the consequences, delete this password</button>
-    </main>
-  </section>
+  <section id="delete-box" class="box"></section>
 </body>
 </html>

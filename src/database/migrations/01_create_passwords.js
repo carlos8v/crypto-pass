@@ -2,7 +2,7 @@ exports.up = function (knex) {
   return knex.schema.createTable('passwords', (table) => {
     table.increments('password_id').primary();
     table.integer('user_id').unsigned().notNullable();
-    table.string('service', 30).notNullable();
+    table.string('service', 30).notNullable().unique();
     table.string('password', 32).notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now()).notNullable();
 
