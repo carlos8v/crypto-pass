@@ -236,7 +236,7 @@ const DeleteBox = {
   },
   setupEvents() {
     document.querySelector('#delete-close')
-      .addEventListener('click', () => toggleBoxEnable('#delete-box'));
+      .addEventListener('click', () => this.toggleBoxEnable());
     document.querySelector('#delete-input')
       .addEventListener('input', ({ target }) => this.handleInput(this, target.value));
     document.querySelector('#delete-btn')
