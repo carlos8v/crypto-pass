@@ -88,12 +88,15 @@
 
 .password-container {
   width: 100%;
-  padding: 15px 20px;
+  padding: 20px;
   background: white;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px rgb(0, 0, 0, 0.05);
   border-radius: 4px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
 }
 
 .password-visibility {
@@ -120,17 +123,12 @@
 .password-info {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .password-info p {
   margin-left: 10px;
   width: 100%;
   overflow-wrap: anywhere;
-}
-
-.password {
-  margin-bottom: 15px;
 }
 
 .password > p {
