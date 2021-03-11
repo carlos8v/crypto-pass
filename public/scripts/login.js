@@ -9,6 +9,12 @@ const LoginForm = {
   handleInput(loginForm, name, value) {
     loginForm.state[name] = value;
   },
+  async handleAlreadyLogIn() {
+    if (localStorage.getItem('token') !== null) {
+      const { baseURL } = await getInfo();
+      window.location.href = `${baseURL}/home`;
+    }
+  },
   async handleSubmit(formLogin, e) {
     e.preventDefault();
     
@@ -48,6 +54,7 @@ const LoginForm = {
     `;
   },
   update() {
+    this.handleAlreadyLogIn();
     document.querySelector(this.state.parent).innerHTML = this.render();
     this.setupEvents();
   }

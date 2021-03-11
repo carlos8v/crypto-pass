@@ -44,7 +44,7 @@ const User = {
     window.location.href = baseURL;
   },
   setupEvents() {
-    document.querySelector('.log-out').addEventListener('click', this.handleLogout);
+    document.querySelector('#log-out').addEventListener('click', this.handleLogout);
   },
   render() {
     return `
@@ -57,7 +57,7 @@ const User = {
           <span class="passwords-count">${this.state.passwords}</span>
         </i>
       </div>
-      <button class="log-out">Log out</button>
+      <button id="log-out" class="log-out">Log out</button>
     `;
   },
   async update() {
@@ -252,8 +252,8 @@ const DeleteBox = {
       </header>
       <div class="warn">You won't be able to recover this password</div>
       <main class="box-content">
-        <p>Please type <strong class="pass-name">${User.state.username}/${this.state.service}</strong> to confirm.</p>
-        <input type="text" class="box-input delete-input" id="delete-input">
+        <p>Please type <strong>${User.state.username}/${this.state.service}</strong> to confirm.</p>
+        <input type="text" class="box-input" id="delete-input">
         <button id="delete-btn" class="box-btn delete-btn" disabled>I understand the consequences, delete this password</button>
       </main>
     `;
