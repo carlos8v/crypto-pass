@@ -131,6 +131,12 @@ a {
   gap: 10px;
 }
 
+.delete-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .box-input {
   height: 28px;
   padding: 0 10px;

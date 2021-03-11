@@ -119,14 +119,18 @@
 
 .password-info {
   display: flex;
-  margin-bottom: 5px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .password-info p {
   margin-left: 10px;
-  margin-bottom: 10px;
   width: 100%;
   overflow-wrap: anywhere;
+}
+
+.password {
+  margin-bottom: 15px;
 }
 
 .password > p {

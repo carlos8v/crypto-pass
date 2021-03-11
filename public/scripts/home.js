@@ -207,7 +207,9 @@ const DeleteBox = {
       }
     }
   },
-  async handleDelete(deleteBox) {
+  async handleDelete(deleteBox, e) {
+    e.preventDefault();
+
     const { baseURL } = await getInfo();
 
     try {
@@ -239,8 +241,8 @@ const DeleteBox = {
       .addEventListener('click', () => this.toggleBoxEnable());
     document.querySelector('#delete-input')
       .addEventListener('input', ({ target }) => this.handleInput(this, target.value));
-    document.querySelector('#delete-btn')
-      .addEventListener('click', () => this.handleDelete(this));
+    document.querySelector('#delete-form')
+      .addEventListener('submit', (e) => this.handleDelete(this, e));
   },
   render() {
     return `
@@ -253,8 +255,10 @@ const DeleteBox = {
       <div class="warn">You won't be able to recover this password</div>
       <main class="box-content">
         <p>Please type <strong>${User.state.username}/${this.state.service}</strong> to confirm.</p>
-        <input type="text" class="box-input" id="delete-input">
-        <button id="delete-btn" class="box-btn delete-btn" disabled>I understand the consequences, delete this password</button>
+        <form id="delete-form" class="delete-form">
+          <input type="text" class="box-input" id="delete-input">
+          <button id="delete-btn" class="box-btn delete-btn" disabled>I understand the consequences, delete this password</button>
+        </form>
       </main>
     `;
   },
