@@ -19,7 +19,7 @@ routes.get('/passwords', AuthController.authenticate, PasswordController.index);
 routes.post('/passwords/new', AuthController.authenticate, PasswordController.create);
 routes.delete('/passwords/:passwordID', AuthController.authenticate, PasswordController.destroy);
 
-const pagesFolder = resolve(__dirname, '..', 'public', 'pages');
+const pagesFolder = resolve(__dirname, '..', 'public', 'html');
 
 routes.get('/', (req, res) => res.sendFile(`${pagesFolder}/login.html`));
 routes.get('/home', (req, res) => res.sendFile(`${pagesFolder}/home.html`));

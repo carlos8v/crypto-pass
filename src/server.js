@@ -11,8 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/css', express.static(resolve(__dirname, '..', 'public', 'css')));
-app.use('/scripts', express.static(resolve(__dirname, '..', 'public', 'scripts')));
-app.use('/vendor', express.static(resolve(__dirname, '..', 'public', 'vendor')));
+app.use('/js', express.static(resolve(__dirname, '..', 'public', 'js')));
 
 app.use(require('./routes'));
 

@@ -1,4 +1,4 @@
-import { getInfo, handleNotification } from './utils.js';
+import { getInfo, handleNotification } from '../utils.js';
 
 const LoginForm = {
   state: {
