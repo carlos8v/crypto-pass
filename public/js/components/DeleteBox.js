@@ -14,9 +14,7 @@ const DeleteBox = {
     if (value === `${username}/${service}`) {
       deleteButton.removeAttribute('disabled');
     } else {
-      if (!deleteButton.hasAttribute('disabled')) {
-        deleteButton.setAttribute('disabled', '');
-      }
+      deleteButton.setAttribute('disabled', '');
     }
   },
   handleDelete: async function(e) {

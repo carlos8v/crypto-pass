@@ -38,10 +38,15 @@
   margin-top: 15px;
   cursor: pointer;
   color: #666;
-  transition: filter 400ms ease-out;
+  transition: all 200ms ease-out;
   text-decoration: none;
   font-size: 16px;
   text-align: center;
+}
+
+.log-out:hover {
+  filter: brightness(75%);
+  border: 1px solid rgb(0, 0, 0, 0.2);
 }
 
 .home-container {
