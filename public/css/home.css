@@ -179,7 +179,7 @@
   color: white;
 }
 
-.no-passwords-saved {
+.no-passwords {
   opacity: 0;
   pointer-events: none;
   user-select: none;
@@ -196,7 +196,7 @@
   right: 0;
 }
 
-.no-passwords-saved-enabled {
+.no-passwords-enabled {
   opacity: 1;
 }
 

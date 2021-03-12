@@ -1,44 +1,46 @@
-const Context = {
-  state: {
-    baseURL: '',
-    username: '',
-    passwordsCount: 0,
-    currentPass: {},
-    deleteBox: false,
+export default function createContext(_state) {
+  const state = {
+    ..._state,
     observers: [],
-  },
-  subscribe(observer, dependenciesList) {
-    this.state.observers.push({ observer, dependenciesList });
-  },
-  hasChanged(oldState) {
+  }
+
+  function subscribe(observerFunction, dependenciesList) {
+    state.observers.push({ observerFunction, dependenciesList });
+  }
+
+  function hasChanged(oldState) {
     const modifiedDependencies = [];
-    for (const state in oldState) {
-      if (oldState[state] !== this.state[state])
-        modifiedDependencies.push(state);
+    for (const field in oldState) {
+      if (oldState[field] !== state[field])
+        modifiedDependencies.push(field);
     }
 
-    this.notifyAll(modifiedDependencies);
-  },
-  notifyAll(modifiedDependencies) {
-    this.state.observers.forEach(async ({ observer, dependenciesList }) => {
+    notifyAll(modifiedDependencies);
+  }
+
+  function notifyAll(modifiedDependencies) {
+    state.observers.forEach(async ({ observerFunction, dependenciesList }) => {
       if (dependenciesList.some((dep) => modifiedDependencies.includes(dep))) {
-        await observer.update();
+        await observerFunction();
       }
     });
-  },
-  setState(newState) {
-    const oldState = this.state;
+  }
 
-    this.state = {
-      ...oldState,
-      ...newState,
-    }
+  function setState(newState) {
+    const oldState = Object.assign({}, state);
 
-    this.hasChanged(oldState);
-  },
-  getState() {
-    return this.state;
+    Object.assign(state, newState);
+
+    hasChanged(oldState);
+  }
+
+  function getState() {
+    return state;
+  }
+
+  return {
+    subscribe,
+    setState,
+    getState,
   }
 }
-
-export default Context;

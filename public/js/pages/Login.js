@@ -1,25 +1,28 @@
 import { getInfo, handleNotification } from '../utils.js';
 
-const LoginForm = {
-  state: {
-    parent: '#form',
+function createLoginForm(parent) {
+  const state = {
     username: '',
     password: '',
-  },
-  handleInput: function(name, value) {
-    this.state[name] = value;
-  },
-  handleAlreadyLogIn: async function() {
+    parent,
+  }
+
+  function handleInput(name, value) {
+    state[name] = value;
+  }
+  
+  async function handleAlreadyLogIn() {
     if (localStorage.getItem('token') !== null) {
       const { baseURL } = await getInfo();
       window.location.href = `${baseURL}/home`;
     }
-  },
-  handleSubmit: async function(e) {
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
 
     const { baseURL } = await getInfo();
-    const { username, password } = this.state;
+    const { username, password } = state;
 
     try {
       const { data } = await axios.get(`${baseURL}/users/find`, {
@@ -34,15 +37,17 @@ const LoginForm = {
     } catch(err) {
       handleNotification('.error', 'Username or password does not match');
     }
-  },
-  setupEvents() {
+  }
+  
+  function setupEvents() {
     document.querySelectorAll('.input-block > input').forEach(input => {
-      input.addEventListener('input', ({ target }) => this.handleInput(input.id, target.value));
+      input.addEventListener('input', ({ target }) => handleInput(input.id, target.value));
     });
-    document.querySelector(this.state.parent)
-      .addEventListener('submit', (e) => this.handleSubmit(e));
-  },
-  render() {
+
+    document.querySelector(state.parent).addEventListener('submit', (e) => handleSubmit(e));
+  }
+
+  function render() {
     return `
       <div class="input-block">
         <label for="name">Username:</label>
@@ -54,16 +59,19 @@ const LoginForm = {
       </div>
       <button type="submit">Sign in</button>
     `;
-  },
-  async update() {
-    await this.handleAlreadyLogIn();
-    document.querySelector(this.state.parent).innerHTML = this.render();
-    this.setupEvents();
   }
+  
+  async function update() {
+    await handleAlreadyLogIn();
+    document.querySelector(state.parent).innerHTML = render();
+    setupEvents();
+  }
+
+  return {
+    update,
+  };
 }
 
-async function updateDom() {
-  await LoginForm.update();
+window.onload = async () => {
+  await createLoginForm('#form').update();
 }
-
-window.onload = updateDom;

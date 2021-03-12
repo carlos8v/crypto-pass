@@ -1,27 +1,25 @@
-import Context from '../context/Context.js';
-
-const DeleteBox = {
-  state: {
-    parent: '#delete-box',
+export default function createDeleteBox(parent, context) {
+  const state = {
+    parent,
     input: '',
-  },
-  handleInput: function(value) {
-    const { username } = Context.state;
-    const { service } = Context.state.currentPass;
+  }
   
-    this.state.input = value;
+  function handleInput(value) {
+    const { username, currentPass: { service } } = context.getState();
+  
+    state.input = value;
     const deleteButton = document.querySelector('#delete-btn');
     if (value === `${username}/${service}`) {
       deleteButton.removeAttribute('disabled');
     } else {
       deleteButton.setAttribute('disabled', '');
     }
-  },
-  handleDelete: async function(e) {
+  }
+
+  async function handleDelete(e) {
     e.preventDefault();
 
-    const { baseURL } = Context.state;
-    const { password_id } = Context.state.currentPass;
+    const { baseURL, currentPass: { password_id } } = context.getState();
 
     try {
       await axios.delete(`${baseURL}/passwords/${password_id}`, {
@@ -30,10 +28,10 @@ const DeleteBox = {
         }
       });
 
-      Context.setState({
+      context.setState({
         currentPass: {},
         deleteBox: false,
-        passwordsCount: Context.state.passwordsCount - 1,
+        passwordsCount: context.getState().passwordsCount - 1,
       });
 
     } catch ({ response }) {
@@ -43,9 +41,10 @@ const DeleteBox = {
         window.location.href = baseURL;
       }
     }
-  },
-  toggleBoxEnable: function() {
-    const { deleteBox: isActive } = Context.state;
+  }
+
+  function toggleBoxEnable() {
+    const { deleteBox: isActive } = context.getState();
     const contrast = document.querySelector('.contrast');
     const deleteBox = document.querySelector('#delete-box');
     
@@ -56,18 +55,20 @@ const DeleteBox = {
       contrast.classList.remove('contrast-active');
       deleteBox.classList.remove('box-active');
     }
-  },
-  setupEvents() {
+  }
+
+  function setupEvents() {
     document.querySelector('#delete-close')
-      .addEventListener('click', () => Context.setState({ deleteBox: false }));
-    document.querySelector('#delete-input')
-      .addEventListener('input', ({ target }) => this.handleInput(target.value));
-    document.querySelector('#delete-form')
-      .addEventListener('submit', (e) => this.handleDelete(e));
-  },
-  render() {
-    const { username } = Context.state;
-    const { service } = Context.state.currentPass;
+      .addEventListener('click', () => context.setState({ deleteBox: false }));
+    
+      document.querySelector('#delete-input')
+      .addEventListener('input', ({ target }) => handleInput(target.value));
+    
+      document.querySelector('#delete-form').addEventListener('submit', handleDelete);
+  }
+
+  function render() {
+    const { username, currentPass: { service } } = context.getState();
 
     return `
       <header class="box-header">
@@ -85,12 +86,15 @@ const DeleteBox = {
         </form>
       </main>
     `;
-  },
-  update() {
-    document.querySelector(this.state.parent).innerHTML = this.render();
-    this.setupEvents();
-    this.toggleBoxEnable();
+  }
+
+  function update() {
+    document.querySelector(state.parent).innerHTML = render();
+    setupEvents();
+    toggleBoxEnable();
+  }
+
+  return {
+    update,
   }
 }
-
-export default DeleteBox;

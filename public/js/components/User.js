@@ -1,19 +1,20 @@
-import Context from '../context/Context.js';
+export default function createUser(parent, context) {
+  const state = {
+    parent,
+  };
 
-const User = {
-  state: {
-    parent: '.user-container',
-  },
-  handleLogout: async function() {
+  async function handleLogout() {
     localStorage.removeItem('token');
   
-    window.location.href = Context.state.baseURL;
-  },
-  setupEvents() {
-    document.querySelector('#log-out').addEventListener('click', this.handleLogout);
-  },
-  render() {
-    const { username, passwordsCount } = Context.state;
+    window.location.href = context.getState().baseURL;
+  }
+
+  function setupEvents() {
+    document.querySelector('#log-out').addEventListener('click', handleLogout);
+  }
+
+  function render() {
+    const { username, passwordsCount } = context.getState();
 
     return `
       <div class="section-header">
@@ -27,11 +28,14 @@ const User = {
       </div>
       <button id="log-out" class="log-out">Log out</button>
     `;
-  },
-  update() {
-    document.querySelector(this.state.parent).innerHTML = this.render();
-    this.setupEvents();
   }
-};
 
-export default User;
+  function update() {
+    document.querySelector(state.parent).innerHTML = render();
+    setupEvents();
+  }
+
+  return {
+    update,
+  }
+}

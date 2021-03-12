@@ -1,21 +1,20 @@
 import { handleNotification } from '../utils.js';
-import Context from '../context/Context.js';
 
-const Password = {
-  state: {
-    parent: '.passwords-container',
-    service: '',
-    password: '',
-    password_id: 0,
-  },
-  handleCopy: function() {
-    const { password } = this.state;
-    navigator.clipboard.writeText(password);
+export default function createPassword({ service, password, password_id }, context) {
+  const state = {
+    service,
+    password,
+    password_id,
+  }
+
+  function handleCopy() {
+    navigator.clipboard.writeText(state.password);
     handleNotification('.copy', 'Password copied to clipboard');
-  },
-  handleDelete: function() {
-    const { password_id, service, password } = this.state;
-    Context.setState({
+  }
+
+  function handleDelete() {
+    const { password_id, service, password } = state;
+    context.setState({
       currentPass: {
         password_id,
         service,
@@ -23,30 +22,33 @@ const Password = {
       },
       deleteBox: true,
     });
-  },
-  toggleVisibility: function() {
-    const { password_id } = this.state;
+  }
+
+  function toggleVisibility() {
+    const { password_id } = state;
 
     document.querySelector(`#visibility-${password_id}`)
       .classList.toggle('password-visibility-enabled');
 
     document.querySelector(`#pass-${password_id}`)
       .classList.toggle('password-enabled');
-  },
-  setupEvents() {
-    const { password_id } = this.state;
+  }
+
+  function setupEvents() {
+    const { password_id } = state;
 
     document.querySelector(`#copy-${password_id}`)
-      .addEventListener('click', () => this.handleCopy());
+      .addEventListener('click', handleCopy);
 
     document.querySelector(`#delete-${password_id}`)
-      .addEventListener('click', () => this.handleDelete());
+      .addEventListener('click', handleDelete);
 
     document.querySelector(`#visibility-${password_id}`)
-      .addEventListener('click', () => this.toggleVisibility());
-  },
-  render() {
-    const { password_id, service, password } = this.state;
+      .addEventListener('click', toggleVisibility);
+  }
+
+  function render() {
+    const { password_id, service, password } = state;
 
     return `
       <div class="password-container">
@@ -63,17 +65,10 @@ const Password = {
         <p id="visibility-${password_id}" class="password-visibility"></p>
       </div>
     `;
-  },
-  generate(passInfo) {
-    const newPass = new Object({
-      ...this,
-      state: {
-        ...passInfo,
-      }
-    });
-
-    return newPass;
   }
-};
 
-export default Password;
+  return {
+    render,
+    setupEvents,
+  };
+}
