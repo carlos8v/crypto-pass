@@ -23,5 +23,6 @@ const pagesFolder = resolve(__dirname, '..', 'public', 'html');
 
 routes.get('/', (req, res) => res.sendFile(`${pagesFolder}/login.html`));
 routes.get('/home', (req, res) => res.sendFile(`${pagesFolder}/home.html`));
+routes.get('/join', (req, res) => res.sendFile(`${pagesFolder}/join.html`));
 
 module.exports = routes;

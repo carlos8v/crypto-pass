@@ -29,10 +29,10 @@ If you want to modify your port on the `.env` file, remember to modify as well t
  - Hash cryptograph;
 
 ## To do list
-- [ ] Sign up page;
+- [x] Sign up page;
+- [ ] Email a new user his password.
 - [ ] Create new password system on the front-end;
 - [ ] Renovation of JWT token;
-- [ ] Email a new user his password.
 
 ## Changelogs
 - Redirection of non authenticated user on the front-end;

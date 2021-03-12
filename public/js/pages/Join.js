@@ -1,16 +1,16 @@
 import { getInfo, handleNotification } from '../utils.js';
 
-function createLoginForm(parent) {
+function createSignUpForm(parent) {
   const state = {
     parent,
     username: '',
-    password: '',
+    email: '',
   }
 
   function handleInput(name, value) {
     state[name] = value;
   }
-  
+
   async function handleAlreadyLogIn() {
     if (localStorage.getItem('token') !== null) {
       const { baseURL } = await getInfo();
@@ -22,23 +22,18 @@ function createLoginForm(parent) {
     e.preventDefault();
 
     const { baseURL } = await getInfo();
-    const { username, password } = state;
+    const { username, email } = state;
 
     try {
-      const { data } = await axios.get(`${baseURL}/users/find`, {
-        auth: {
-          username,
-          password,
-        },
-      })
-      
+      const { data } = await axios.post(`${baseURL}/users/new`, { username });
+
       localStorage.setItem('token', data.token);
       window.location.href = `${baseURL}/home`;
     } catch(err) {
-      handleNotification('.error', 'Username or password does not match');
+      handleNotification('.error', 'Username has already been chosen');
     }
   }
-  
+
   function setupEvents() {
     document.querySelectorAll('.input-block > input').forEach(input => {
       input.addEventListener('input', ({ target }) => handleInput(input.id, target.value));
@@ -50,28 +45,30 @@ function createLoginForm(parent) {
   function render() {
     return `
       <div class="input-block">
-        <label for="username">Username:</label>
-        <input type="text" id="username" placeholder="ada.lovelace@email.com" required>
+        <label for="username">Username:
+          <span>Your username must be unique.</span>
+        </label>
+        <input id="username" type="text" placeholder="ada.love312" required>
       </div>
       <div class="input-block">
-        <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="safe_password.hash()" required>
+        <label for="email">Email:
+          <span>Your password will be sent to this email.</span>
+        </label>
+        <input id="email" type="text" placeholder="ada.lovelace@email.com" required>
       </div>
-      <button type="submit">Sign in</button>
+      <button type="submit">Sign Up</button>
     `;
   }
-  
+
   async function update() {
     await handleAlreadyLogIn();
     document.querySelector(state.parent).innerHTML = render();
     setupEvents();
   }
 
-  return {
-    update,
-  };
+  return update;
 }
 
 window.onload = async () => {
-  await createLoginForm('#login-form').update();
+  await createSignUpForm('#sign-up-form')();
 };
