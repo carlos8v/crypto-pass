@@ -24,13 +24,36 @@ function createSignUpForm(parent) {
     const { baseURL } = await getInfo();
     const { username, email } = state;
 
+    if (!/\w+@+\w+.com/.test(email)) {
+      handleNotification('.error', 'Provided email is malformed');
+      return;
+    }
+
+    const submitButton = document.querySelector('#sign-up-form > button');
+    submitButton.setAttribute('disabled', '');
+
     try {
-      const { data } = await axios.post(`${baseURL}/users/new`, { username });
+      const { data } = await axios.post(`${baseURL}/users/new`, { username, email });
 
       localStorage.setItem('token', data.token);
       window.location.href = `${baseURL}/home`;
-    } catch(err) {
-      handleNotification('.error', 'Username has already been chosen');
+    } catch({ response: { data }}) {
+      const { error: { code } } = data;
+      let msg = 'An internal error has occurred'
+      switch(code) {
+        case 'SQLITE_CONSTRAINT':
+          msg = 'Username has already been chosen';
+          break;
+        case 'ESOCKET':
+          msg = 'You have a SSL error in your SMTP config';
+          break;
+        case 'EAUTH':
+          msg = 'You have an authentication problem in your SMTP config';
+          break;
+      }
+
+      handleNotification('.error', msg);
+      submitButton.removeAttribute('disabled');
     }
   }
 
@@ -52,9 +75,9 @@ function createSignUpForm(parent) {
       </div>
       <div class="input-block">
         <label for="email">Email:
-          <span>Your password will be sent to this email.</span>
+          <span>Your password will be sent to this email.<br>Do not write it wrong!</span>
         </label>
-        <input id="email" type="text" placeholder="ada.lovelace@email.com" required>
+        <input id="email" type="email" placeholder="ada.lovelace@email.com" required>
       </div>
       <button type="submit">Sign Up</button>
     `;
