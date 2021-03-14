@@ -16,11 +16,11 @@ $ npm run config
 It is importante to know that **crypto-pass** uses [*nodemailer*](https://github.com/nodemailer/nodemailer) dependency to send a new user his password, and for that to work you will have to provide some SMTP info during the configuration script. It doesn't really matter what account you provide, it's just a way to send the new user info to the correct user.
 
 Just for you to know, you will have to provide:
- - SMTP Host;
- - SMTP Port;
- - SMTP Secure;
- - SMTP User;
- - SMTP Password.
+- SMTP Host;
+- SMTP Port;
+- SMTP Secure;
+- SMTP User;
+- SMTP Password.
 
 This information is private and we don't have any ways of stealing that from you.
 
@@ -32,14 +32,14 @@ After that the script will initialize a `.env` file and build the `database.sqli
 
 Then you can simply run `npm run start` and visit the application ip on your browser.
 
-If you want to modify your port on the `.env` file, remember to modify as well the `info.json` file on the *public/js* folder.
+If you want to modify your port on the `.env` file, remember to modify as well the `info.json` file on the *public/js* folder with your ip and port.
 
 ![Screenshots-home-v1.0](https://raw.githubusercontent.com/carlos8v/crypto-pass/main/screenshots/home-crypto-pass-1.0.png)
 
 ## Techs
- - Rest API;
- - JWT Authentication;
- - Hash cryptograph;
+- Rest API;
+- JWT Authentication;
+- Hash cryptograph;
 
 ## To do list
 - [ ] Create new password system on the front-end;
@@ -50,3 +50,6 @@ If you want to modify your port on the `.env` file, remember to modify as well t
 - Sign up page;
 - Configuration script;
 - Email a new user his password.
+
+## Known Issues
+- Copy function does not work outside a localhost environment;
