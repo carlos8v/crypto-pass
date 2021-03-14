@@ -2,6 +2,9 @@ const db = require('../database/connection');
 const crypto = require('crypto');
 const jwt = require('../jwt');
 
+const { resolve } = require('path');
+const createSendMailService = require('../services/SendEmailService');
+
 module.exports = {
   async index(req, res) {
     const users = await db.select().table('users')
@@ -24,7 +27,7 @@ module.exports = {
     return res.status(200).json({ ...safeUser, token });
   },
   async create(req, res) {
-    const { username } = req.body;
+    const { username, email } = req.body;
 
     const trx = await db.transaction();
 
@@ -39,6 +42,18 @@ module.exports = {
         password: cryptoPassword,
       });
       
+      const newAccountPath = resolve(__dirname, '..', 'views', 'emails', 'newAccount.hbs');
+  
+      await createSendMailService().send(
+        email,
+        'Inscrição em crypto-pass',
+        newAccountPath,
+        {
+          username,
+          password: cryptoPassword,
+        }
+      );
+
       await trx.commit();
 
       const [ { password, ...createdUser } ] = await db.select().table('users')

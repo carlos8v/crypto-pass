@@ -9,4 +9,5 @@ module.exports = {
   log: (str) => console.log(`${colour.green}[crypto-pass] ${str}${colour.black}`),
   error: (str) => console.log(`${colour.red}[crypto-pass] ${str}${colour.black}`),
   warn: (str) => console.log(`${colour.yellow}[crypto-pass] ${str}${colour.black}`),
+  colour,
 };
