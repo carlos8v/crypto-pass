@@ -6,6 +6,18 @@
   color: #333;
 }
 
+*::-webkit-scrollbar {
+  width: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #BBB;
+}
+
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgb(0, 0, 0, 0.15);
+}
+
 body {
   background: #F6F8FA;
 }
@@ -84,7 +96,7 @@ a {
   max-height: 80vh;
   margin: 10vh auto;
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #DDD;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   opacity: 0;
@@ -140,13 +152,13 @@ a {
 .box-input {
   height: 28px;
   padding: 0 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #DDD;
   border-radius: 4px;
 }
 
 .box-btn {
-  padding: 5px 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  border: 1px solid #DDD;
   background: transparent;
   border-radius: 4px;
   transition: filter 400ms ease-out;
@@ -154,6 +166,7 @@ a {
   font-size: 15px;
   text-align: center;
   transition: all 400ms ease-out;
+  overflow-wrap: anywhere;
 }
 
 .box-btn:disabled {
@@ -166,10 +179,11 @@ a {
 }
 
 .delete-btn {
-  color: #fb3333;
+  color: #FB3333;
 }
 
 .delete-btn:not(:disabled):hover {
   color: white;
-  background: #fb3333;
+  background: #FB3333;
+  border: #FB3333
 }

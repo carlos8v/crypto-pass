@@ -8,8 +8,11 @@ export default function createPassword({ service, password, password_id }, conte
   }
 
   function handleCopy() {
-    navigator.clipboard.writeText(state.password);
+    const pass = document.querySelector(`#pass-${password_id} textarea`);
+    pass.select();
+    document.execCommand('copy');
     handleNotification('.copy', 'Password copied to clipboard');
+    document.querySelector(`#copy-${password_id}`).focus();
   }
 
   function handleDelete() {
@@ -56,7 +59,7 @@ export default function createPassword({ service, password, password_id }, conte
           <i class="fas fa-cog"></i> <p>${service}</p>
         </div>
         <div id="pass-${password_id}" class="password-info password">
-          <i class="fas fa-key"></i> <p>${password}</p>
+          <i class="fas fa-key"></i> <textarea rows="1" readonly>${password}</textarea>
         </div>
         <div class="actions-container">
           <button id="copy-${password_id}">copy</button>

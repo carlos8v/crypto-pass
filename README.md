@@ -50,6 +50,3 @@ If you want to modify your port on the `.env` file, remember to modify as well t
 - Sign up page;
 - Configuration script;
 - Email a new user his password.
-
-## Known Issues
-- Copy function does not work outside a localhost environment;

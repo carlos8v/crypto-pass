@@ -17,7 +17,7 @@
 
 .form {
   width: 340px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #DDD;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   background: white;
@@ -51,13 +51,13 @@
 .input-block > input {
   width: 100%;
   height: 32px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #DDD;
   border-radius: 4px;
   padding: 0 10px;
 }
 
 .form > button {
-  background: #2ea44f;
+  background: #2EA44f;
   border: 0;
   border-radius: 4px;
   padding: 10px 15px;
@@ -80,7 +80,7 @@
 
 .sign-up {
   padding: 10px 15px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid #DDD;
   background: transparent;
   border-radius: 4px;
   width: 340px;
@@ -98,6 +98,6 @@
 }
 
 .error {
-  background: #fb3333;
+  background: #FB3333;
   color: white;
 }
