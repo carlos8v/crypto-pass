@@ -23,7 +23,7 @@ module.exports = {
       return res.status(401).json({ error: 'Username or password does not match' });
     
     const token = jwt.sign({ user: user.user_id });
-    const { password: pass, ...safeUser } = user;
+    const { password: pass, created_at, ...safeUser } = user;
     return res.status(200).json({ ...safeUser, token });
   },
   async create(req, res) {
@@ -32,14 +32,17 @@ module.exports = {
     const trx = await db.transaction();
 
     try {
+      const timestamp = Date.now();
       const cryptoPassword = crypto
         .createHash('md5')
-        .update(username)
+        .update(username + timestamp)
         .digest('hex');
 
       await trx('users').insert({
         username,
         password: cryptoPassword,
+        email,
+        created_at: timestamp,
       });
       
       const newAccountPath = resolve(__dirname, '..', 'views', 'emails', 'newAccount.hbs');
@@ -56,7 +59,7 @@ module.exports = {
 
       await trx.commit();
 
-      const [ { password, ...createdUser } ] = await db.select().table('users')
+      const [ { password, created_at, ...createdUser } ] = await db.select().table('users')
         .where({ username });
 
       const token = jwt.sign({ user: createdUser.user_id });
@@ -74,12 +77,17 @@ module.exports = {
     const { username } = req.body;
     const { user_id } = req.auth;
 
+    const [ user ] = await db.select().table('users').where({ username }).limit(1);
+
+    if (!user)
+      return res.status(401).json({ error: 'User not found'});
+
     const trx = await db.transaction();
 
     try {
       const password = crypto
         .createHash('md5')
-        .update(username)
+        .update(username + user.created_at)
         .digest('hex');
 
       await trx('users').where({ user_id, password }).del();

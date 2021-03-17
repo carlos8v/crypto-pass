@@ -10,7 +10,7 @@ module.exports = {
     return res.status(200).json(passwords);
   },
   async create(req, res) {
-    const { service, password } = req.body;
+    const { service } = req.body;
     const { user_id } = req.auth;
 
     const lastPasswords = await db.select().table('passwords');
@@ -20,7 +20,7 @@ module.exports = {
     try {
       const cryptoPassword = crypto
         .createHash('md5')
-        .update(password + lastPasswords + Date.now())
+        .update(JSON.stringify(lastPasswords) + Date.now())
         .digest('hex');
 
       await trx('passwords').insert({
