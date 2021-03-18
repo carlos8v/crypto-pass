@@ -42,11 +42,15 @@ If you want to modify your port on the `.env` file, remember to modify as well t
 - Hash cryptograph;
 
 ## To do list
-- [ ] Create new password system on the front-end;
 - [ ] Renovation of JWT token;
 
+## One Step Further
+
+If you want to host this application in a local server, you can modify the DNS hosts config in your router to map the ip of the application server on a custom hostname like **crypto-pass.local**, then you can go to *http://crypto-pass.local:3000* and the application will run as usual.
+
+⚠️ Important: You can change the apllication port to *80*, but this is **not recomended**. The *right* way to do it would be to install [*nginx*](https://www.nginx.com/) on the device that the application will be hosted and use it to redirect to the correct port.
+
 ## Changelogs
-- Redirection of non authenticated user on the front-end;
 - Sign up page;
 - Configuration script;
 - Email a new user his password.

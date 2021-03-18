@@ -36,7 +36,8 @@ export async function fetchUser() {
 }
 
 export function handleNotification(style, err) {
-  const notification = document.querySelector(style);
+  const notification = document.querySelector('#notification');
+  notification.className = `notification ${style}`;
   notification.innerHTML = err;
   notification.classList.toggle('notification-active');
   const activeNotification = document.querySelector('.notification-active');

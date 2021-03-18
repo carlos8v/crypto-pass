@@ -189,11 +189,6 @@
   border-left: 1px solid #DDD;
 }
 
-.copy {
-  background: #2EA44f;
-  color: white;
-}
-
 .no-passwords {
   opacity: 0;
   pointer-events: none;

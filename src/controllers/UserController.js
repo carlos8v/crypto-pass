@@ -49,7 +49,7 @@ module.exports = {
   
       await createSendMailService().send(
         email,
-        'Inscrição em crypto-pass',
+        'crypto-pass subscription',
         newAccountPath,
         {
           username,

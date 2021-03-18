@@ -29,6 +29,9 @@ export default function createPasswordsContainer(parent, context) {
   }
 
   function setupEvents() {
+    document.querySelector('#new-pass')
+      .addEventListener('click', () => context.setState({ newBox: true }));
+
     state.passwords.forEach(pass => pass.setupEvents());
   }
 
@@ -36,7 +39,7 @@ export default function createPasswordsContainer(parent, context) {
     return `
       <div class="section-header">
         <p class="title">Your Passwords</p>
-        <button class="new-password">New</button>
+        <button id="new-pass" class="new-password">New</button>
       </div>
       <div class="passwords-container">${renderPasswords()}</div>
       <div id="no-pass" class="no-passwords">You don't have any saved passwords yet</div>

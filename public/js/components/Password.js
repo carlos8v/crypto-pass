@@ -11,7 +11,7 @@ export default function createPassword({ service, password, password_id }, conte
     const pass = document.querySelector(`#pass-${password_id} textarea`);
     pass.select();
     document.execCommand('copy');
-    handleNotification('.copy', 'Password copied to clipboard');
+    handleNotification('success', 'Password copied to clipboard');
     document.querySelector(`#copy-${password_id}`).focus();
   }
 

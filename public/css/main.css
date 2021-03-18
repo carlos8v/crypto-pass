@@ -34,12 +34,22 @@ a {
   font-weight: 600;
   font-size: 14px;
   pointer-events: none;
-  z-index: 5;
+  z-index: 10;
 }
 
 .notification-active {
   animation: show-notification 5s;
   animation-fill-mode: forwards;
+}
+
+.error {
+  background: #FB3333;
+  color: white;
+}
+
+.success {
+  background: #2EA44f;
+  color: white;
 }
 
 @keyframes show-notification {
@@ -185,5 +195,11 @@ a {
 .delete-btn:not(:disabled):hover {
   color: white;
   background: #FB3333;
-  border: #FB3333
+  border: 1px solid #FB3333;
+}
+
+.new-btn {
+  color: white;
+  background: #2EA44f;
+  border: 1px solid #2EA44f;
 }

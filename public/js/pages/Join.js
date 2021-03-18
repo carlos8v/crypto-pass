@@ -25,7 +25,7 @@ function createSignUpForm(parent) {
     const { username, email } = state;
 
     if (!/\w+@+\w+.com/.test(email)) {
-      handleNotification('.error', 'Provided email is malformed');
+      handleNotification('error', 'Provided email is malformed');
       return;
     }
 
@@ -52,7 +52,7 @@ function createSignUpForm(parent) {
           break;
       }
 
-      handleNotification('.error', msg);
+      handleNotification('error', msg);
       submitButton.removeAttribute('disabled');
     }
   }

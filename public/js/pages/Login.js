@@ -35,7 +35,7 @@ function createLoginForm(parent) {
       localStorage.setItem('token', data.token);
       window.location.href = `${baseURL}/home`;
     } catch(err) {
-      handleNotification('.error', 'Username or password does not match');
+      handleNotification('error', 'Username or password does not match');
     }
   }
   

@@ -25,7 +25,7 @@ export default function createDeleteBox(parent, context) {
       await axios.delete(`${baseURL}/passwords/${password_id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        }
+        },
       });
 
       context.setState({
@@ -61,10 +61,10 @@ export default function createDeleteBox(parent, context) {
     document.querySelector('#delete-close')
       .addEventListener('click', () => context.setState({ deleteBox: false }));
     
-      document.querySelector('#delete-input')
+    document.querySelector('#delete-input')
       .addEventListener('input', ({ target }) => handleInput(target.value));
     
-      document.querySelector('#delete-form').addEventListener('submit', handleDelete);
+    document.querySelector('#delete-form').addEventListener('submit', handleDelete);
   }
 
   function render() {
