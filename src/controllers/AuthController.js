@@ -9,14 +9,14 @@ module.exports = {
 
     const [_, token] = req.headers.authorization.split(' ');
     try {
-      const payload = await jwt.verify(token);
+      const payload = jwt.verify(token);
       const [ user ] = await db.select().table('users')
         .where({ user_id: payload.user }).limit(1);
 
       if (!user)
         return res.status(401).json({ error: 'User not found'});
 
-      const { password, ...safeUser } = user;
+      const { password, created_at, ...safeUser } = user;
       req.auth = safeUser;
       next();
     } catch (error) {

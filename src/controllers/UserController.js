@@ -9,7 +9,11 @@ module.exports = {
   async index(req, res) {
     const users = await db.select().table('users')
       .orderBy('username', 'asc');
-    return res.status(200).json(users);
+    const safeUsers = users.reduce((acc, curr) => {
+      const { password, created_at, email, ...safeUser } = curr;
+      return [...acc, safeUser];
+    }, []);
+    return res.status(200).json(safeUsers);
   },
   async get(req, res) {
     const [ _, hash ] = req.headers.authorization.split(' ');
