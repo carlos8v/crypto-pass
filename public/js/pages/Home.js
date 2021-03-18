@@ -6,7 +6,7 @@ import createPasswordsContainer from '../components/PasswordsContainer.js';
 import createNewBox from '../components/NewBox.js';
 import createDeleteBox from '../components/DeleteBox.js';
 
-async function loadDom() {
+(async () => {
   const context = createContext({
     baseURL: '',
     username: '',
@@ -33,6 +33,4 @@ async function loadDom() {
     passwordsCount: pass.length,
     baseURL,
   })
-}
-
-window.onload = loadDom;
+})();

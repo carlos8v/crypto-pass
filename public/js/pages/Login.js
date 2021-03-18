@@ -72,6 +72,6 @@ function createLoginForm(parent) {
   };
 }
 
-window.onload = async () => {
+(async () => {
   await createLoginForm('#login-form').update();
-};
+})();

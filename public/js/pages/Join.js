@@ -92,6 +92,6 @@ function createSignUpForm(parent) {
   return update;
 }
 
-window.onload = async () => {
+(async () => {
   await createSignUpForm('#sign-up-form')();
-};
+})();
