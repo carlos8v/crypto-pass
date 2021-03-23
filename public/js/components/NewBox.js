@@ -1,6 +1,6 @@
 import { handleNotification } from '../utils.js';
 
-export default function createNewBox(parent, context) {
+export default function createNewBox(parent, context, document) {
   const state = {
     parent,
     input: '',

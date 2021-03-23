@@ -1,4 +1,4 @@
-export default function createDeleteBox(parent, context) {
+export default function createDeleteBox(parent, context, document) {
   const state = {
     parent,
     input: '',

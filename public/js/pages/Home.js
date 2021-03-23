@@ -16,10 +16,10 @@ import createDeleteBox from '../components/DeleteBox.js';
     newBox: false,
   });
 
-  const user = createUser('#user-container', context);
-  const passwordsContainer = createPasswordsContainer('#home-container', context);
-  const deleteBox = createDeleteBox('#delete-box', context);
-  const newBox = createNewBox('#new-box', context);
+  const user = createUser('#user-container', context, document);
+  const passwordsContainer = createPasswordsContainer('#home-container', context, document);
+  const deleteBox = createDeleteBox('#delete-box', context, document);
+  const newBox = createNewBox('#new-box', context, document);
   
   context.subscribe(user.update, ['username', 'passwordsCount']);
   context.subscribe(passwordsContainer.update, ['username', 'passwordsCount']);

@@ -1,4 +1,4 @@
-export default function createUser(parent, context) {
+export default function createUser(parent, context, document) {
   const state = {
     parent,
   };

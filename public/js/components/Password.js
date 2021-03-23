@@ -1,6 +1,10 @@
 import { handleNotification } from '../utils.js';
 
-export default function createPassword({ service, password, password_id }, context) {
+export default function createPassword(
+  { service, password, password_id },
+  context,
+  document,
+) {
   const state = {
     service,
     password,

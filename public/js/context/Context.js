@@ -1,11 +1,8 @@
-export default function createContext(_state) {
-  const state = {
-    ..._state,
-    observers: [],
-  }
+export default function createContext(state = {}) {
+  const observers = [];
 
   function subscribe(observerFunction, dependenciesList) {
-    state.observers.push({ observerFunction, dependenciesList });
+    observers.push({ observerFunction, dependenciesList });
   }
 
   function hasChanged(oldState) {
@@ -19,7 +16,7 @@ export default function createContext(_state) {
   }
 
   function notifyAll(modifiedDependencies) {
-    state.observers.forEach(async ({ observerFunction, dependenciesList }) => {
+    observers.forEach(async ({ observerFunction, dependenciesList }) => {
       if (dependenciesList.some((dep) => modifiedDependencies.includes(dep))) {
         await observerFunction();
       }

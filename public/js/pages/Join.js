@@ -1,6 +1,6 @@
 import { getInfo, handleNotification } from '../utils.js';
 
-function createSignUpForm(parent) {
+function createSignUpForm(parent, document) {
   const state = {
     parent,
     username: '',
@@ -93,5 +93,5 @@ function createSignUpForm(parent) {
 }
 
 (async () => {
-  await createSignUpForm('#sign-up-form')();
+  await createSignUpForm('#sign-up-form', document)();
 })();

@@ -1,6 +1,6 @@
 import { getInfo, handleNotification } from '../utils.js';
 
-function createLoginForm(parent) {
+function createLoginForm(parent, document) {
   const state = {
     parent,
     username: '',
@@ -73,5 +73,5 @@ function createLoginForm(parent) {
 }
 
 (async () => {
-  await createLoginForm('#login-form').update();
+  await createLoginForm('#login-form', document).update();
 })();

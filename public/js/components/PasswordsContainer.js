@@ -1,6 +1,6 @@
 import createPassword from './Password.js';
 
-export default function createPasswordsContainer(parent, context) {
+export default function createPasswordsContainer(parent, context, document) {
   const state = {
     parent,
     passwords: [],
@@ -18,7 +18,7 @@ export default function createPasswordsContainer(parent, context) {
 
     if (data.length !== 0) {
       data.forEach((pass) => {
-        const newPass = createPassword(pass, context);
+        const newPass = createPassword(pass, context, document);
         state.passwords.push(newPass);
       });
     }
