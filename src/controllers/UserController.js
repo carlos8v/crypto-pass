@@ -1,6 +1,6 @@
 const db = require('../database/connection');
 const crypto = require('crypto');
-const jwt = require('../jwt');
+const jwt = require('../config/jwt');
 
 const { resolve } = require('path');
 const createSendMailService = require('../services/SendEmailService');
@@ -27,6 +27,10 @@ module.exports = {
       return res.status(401).json({ error: 'Username or password does not match' });
     
     const token = jwt.sign({ user: user.user_id });
+    res.cookie('jid', jwt.signRefresh({ user: user.user_id }), {
+      httpOnly: true,
+    });
+
     const { password: pass, created_at, ...safeUser } = user;
     return res.status(200).json({ ...safeUser, token });
   },
@@ -67,6 +71,9 @@ module.exports = {
         .where({ username });
 
       const token = jwt.sign({ user: createdUser.user_id });
+      res.cookie('jid', jwt.signRefresh({ user: createdUser.user_id }), {
+        httpOnly: true,
+      });
 
       return res.status(201).json({ ...createdUser, token });
     } catch (error) {
@@ -108,4 +115,4 @@ module.exports = {
       });
     }
   }
-}
+};

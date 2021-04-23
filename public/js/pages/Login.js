@@ -51,7 +51,7 @@ function createLoginForm(parent, document) {
     return `
       <div class="input-block">
         <label for="username">Username:</label>
-        <input type="text" id="username" placeholder="ada.lovelace@email.com" required>
+        <input type="text" id="username" placeholder="ada.lovelace@email.com" required autocomplete="off">
       </div>
       <div class="input-block">
         <label for="password">Password:</label>

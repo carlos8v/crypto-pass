@@ -1,12 +1,13 @@
+import { redirectToLogin } from '../utils.js';
+
 export default function createUser(parent, context, document) {
   const state = {
     parent,
   };
 
   async function handleLogout() {
-    localStorage.removeItem('token');
-  
-    window.location.href = context.getState().baseURL;
+    const { baseURL } = context.getState();
+    redirectToLogin(baseURL);
   }
 
   function setupEvents() {

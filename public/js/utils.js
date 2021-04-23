@@ -1,3 +1,43 @@
+async function fetchUserData(baseURL) {
+  const { data: user } = await axios.get(`${baseURL}/me`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  });
+  
+  const { data: pass } = await axios.get(`${baseURL}/passwords`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    }
+  });
+
+  return {
+    user,
+    pass,
+  };
+}
+
+async function refreshToken(baseURL) {
+  try {
+    const response = await axios.post(`${baseURL}/refresh_token`);
+    const token = response?.data?.token;
+    
+    if (!token) redirectToLogin(baseURL);
+    localStorage.setItem('token', token);
+
+    const { user, pass } = await fetchUserData(baseURL);
+
+    return {
+      user,
+      pass,
+      baseURL,
+    }
+    
+  } catch {
+    redirectToLogin(baseURL);
+  }
+}
+
 export async function getInfo() {
   const { data } = await axios.get('js/info.json');
   return data;
@@ -10,17 +50,7 @@ export async function fetchUser() {
     window.location.href = baseURL;
 
   try {
-    const { data: user } = await axios.get(`${baseURL}/me`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      }
-    });
-    
-    const { data: pass } = await axios.get(`${baseURL}/passwords`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      }
-    });
+    const { user, pass } = await fetchUserData(baseURL);
 
     return {
       user,
@@ -28,11 +58,21 @@ export async function fetchUser() {
       baseURL,
     }
   } catch ({ response }) {
-    if (response.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = baseURL;
+    if (response?.data?.name === 'TokenExpiredError') {
+      const userData = await refreshToken(baseURL);
+      return {
+        ...userData,
+        baseURL,
+      }
     }
+    
+    redirectToLogin(baseURL);
   }
+}
+
+export function redirectToLogin(baseURL) {
+  localStorage.removeItem('token');
+  window.location.href = baseURL;
 }
 
 export function handleNotification(style, err) {

@@ -71,13 +71,13 @@ function createSignUpForm(parent, document) {
         <label for="username">Username:
           <span>Your username must be unique.</span>
         </label>
-        <input id="username" type="text" placeholder="ada.love312" required>
+        <input id="username" type="text" placeholder="ada.love312" autocomplete="off" required>
       </div>
       <div class="input-block">
         <label for="email">Email:
           <span>Your password will be sent to this email.<br>Do not write it wrong!</span>
         </label>
-        <input id="email" type="email" placeholder="ada.lovelace@email.com" required>
+        <input id="email" type="email" placeholder="ada.lovelace@email.com" autocomplete="off" required>
       </div>
       <button type="submit">Sign Up</button>
     `;

@@ -31,4 +31,4 @@ module.exports = function SendMailService() {
   return {
     send,
   }
-}
+};

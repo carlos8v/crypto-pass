@@ -6,13 +6,13 @@ const { writeFile } = require('fs/promises');
 const crypto = require('crypto');
 const knex = require('knex');
 
-const { log, error, warn, colour } = require('./cli');
+const { log, error, warn, colour } = require('../cli');
 
 async function createDatabase() {
-  const config = require('../knexfile');
+  const config = require('../../knexfile');
   const db = knex(config);
   
-  if (existsSync(resolve(__dirname, 'database', 'database.sqlite'))) {
+  if (existsSync(resolve(__dirname, '..', 'database', 'database.sqlite'))) {
     warn('database was dropped');
     await db.migrate.rollback();
   }
@@ -28,7 +28,7 @@ function ask(queries) {
     output: process.stdout,
   });
 
-  return new Promise((resolve) => {
+  return new Promise((res) => {
     let index = 0;
     const answers = [];
     
@@ -39,7 +39,7 @@ function ask(queries) {
       answers.push(line);
       if (index >= queries.length - 1) {
         rl.close();
-        resolve(answers);
+        res(answers);
       } else {
         index++;
         rl.setPrompt(queries[index]);
@@ -61,7 +61,17 @@ async function createDotEnv() {
     .update(Date.now().toString())
     .digest('hex');
   
-  const smtp_config = await ask([
+  const JWT_REFRESH_SECRET = crypto.createHash('md5')
+    .update(Date.now().toString() + JWT_SECRET)
+    .digest('hex');
+  
+  const [
+    SMTP_HOST,
+    SMTP_PORT,
+    SMTP_SECURE,
+    SMTP_USER,
+    SMTP_PASS,
+  ] = await ask([
     '[crypto-pass] SMTP Host: ',
     '[crypto-pass] SMTP Port: ',
     '[crypto-pass] SMTP Secure (y/n): ',
@@ -71,14 +81,15 @@ async function createDotEnv() {
 
   try {
     await writeFile(
-      resolve(__dirname, '..', '.env'),
+      resolve(__dirname, '..', '..', '.env'),
+      'APP_PORT=3000\n\n' +
       `JWT_SECRET=${JWT_SECRET}\n` +
-      'APP_PORT=3000\n' +
-      `SMTP_HOST=${smtp_config[0]}\n` +
-      `SMTP_PORT=${smtp_config[1]}\n` +
-      `SMTP_SECURE=${smtp_config[2] === 'y' ? 'true' : 'false'}\n` +
-      `SMTP_USER=${smtp_config[3]}\n` +
-      `SMTP_PASS=${smtp_config[4]}\n`,
+      `JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}\n\n` +
+      `SMTP_HOST=${SMTP_HOST}\n` +
+      `SMTP_PORT=${SMTP_PORT}\n` +
+      `SMTP_SECURE=${SMTP_SECURE === 'y' ? 'true' : 'false'}\n` +
+      `SMTP_USER=${SMTP_USER}\n` +
+      `SMTP_PASS=${SMTP_PASS}\n`,
     );
 
     log('created .env file in the root directory');

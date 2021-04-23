@@ -9,6 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(require('cookie-parser')());
 
 app.use('/css', express.static(resolve(__dirname, '..', 'public', 'css')));
 app.use('/js', express.static(resolve(__dirname, '..', 'public', 'js')));

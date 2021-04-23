@@ -1,3 +1,5 @@
+import { redirectToLogin } from '../utils.js';
+
 export default function createDeleteBox(parent, context, document) {
   const state = {
     parent,
@@ -37,8 +39,7 @@ export default function createDeleteBox(parent, context, document) {
     } catch ({ response }) {
       if (response.status === 401) {
         alert('User was not authorized');
-        localStorage.removeItem('token');
-        window.location.href = baseURL;
+        redirectToLogin(baseURL);
       }
     }
   }

@@ -6,6 +6,7 @@ const UserController = require('./controllers/UserController');
 const AuthController = require('./controllers/AuthController');
 const PasswordController = require('./controllers/PasswordController');
 
+routes.post('/refresh_token', AuthController.refresh);
 routes.get('/me', AuthController.authenticate, (req, res) => {
   res.status(200).json(req.auth);
 });
