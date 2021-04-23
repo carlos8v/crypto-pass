@@ -42,7 +42,7 @@ If you want to modify your port on the `.env` file, remember to modify as well t
 - Hash cryptograph;
 
 ## To do list
-- [ ] Renovation of JWT token;
+- [ ] Delete user in the front-end;
 
 ## One Step Further
 
