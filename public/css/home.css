@@ -133,7 +133,10 @@
 .password-info p, .password-info textarea {
   margin-left: 10px;
   width: 100%;
-  overflow-wrap: anywhere;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  overflow-wrap: unset;
+  pointer-events: none;
 }
 
 .password > textarea {
@@ -212,6 +215,7 @@
 
 @media (max-width: 700px) {
   .wrapper {
+    height: initial;
     flex-direction: column;
     padding: 20px;
   }
