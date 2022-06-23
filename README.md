@@ -13,7 +13,7 @@ After cloning / downloading the project run:
 $ npm install
 $ npm run config
 ```
-It is importante to know that **crypto-pass** uses [*nodemailer*](https://github.com/nodemailer/nodemailer) dependency to send a new user his password, and for that to work you will have to provide some SMTP info during the configuration script. It doesn't really matter what account you provide, it's just a way to send the new user info to the correct user.
+It is important to know that **crypto-pass** uses [*nodemailer*](https://github.com/nodemailer/nodemailer) dependency to send a new user his password, and for that to work you will have to provide some SMTP info during the configuration script. It doesn't really matter what account you provide, it's just a way to send the new user info to the correct user.
 
 Just for you to know, you will have to provide:
 - SMTP Host;
@@ -28,7 +28,7 @@ You can search for the necessary information from your email provider, it won't 
 
 After that the script will initialize a `.env` file and build the `database.sqlite`. 
 
-⚠️ Important: all your data will be **lost** if you already have a `database.sqlite` file saved.
+> ⚠️ All your data will be **lost** if you already have a `database.sqlite` file saved.
 
 Then you can simply run `npm run start` and visit the application ip on your browser.
 
@@ -48,7 +48,7 @@ If you want to modify your port on the `.env` file, remember to modify as well t
 
 If you want to host this application in a local server, you can modify the DNS hosts config in your router to map the ip of the application server on a custom hostname like **crypto-pass.local**, then you can go to *http://crypto-pass.local:3000* and the application will run as usual.
 
-⚠️ Important: You can change the apllication port to *80*, but this is **not recomended**. The *right* way to do it would be to install [*nginx*](https://www.nginx.com/) on the device that the application will be hosted and use it to redirect to the correct port.
+> ⚠️ You can change the apllication port to *80*, but this is **not recomended**. The *right* way to do it would be to install [*nginx*](https://www.nginx.com/) on the device that the application will be hosted and use it to redirect to the correct port.
 
 ## Changelogs
 - Sign up page;
